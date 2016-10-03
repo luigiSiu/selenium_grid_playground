@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  selenium_grid_playground:
+    build:
+      context: ../selenium_grid_playground
+      dockerfile: Dockerfile
+    depends_on:
+      - selhub
+      - nodeff
+    volumes:
+      - "../selenium_grid_playground:/usr/src/app"
+
+  selhub:
+    image: selenium/hub
+
+  nodeff:
+    image: selenium/node-firefox
+    ports:
+      - 5900
+    depends_on:
+      - selhub
+    environment:
+      HUB_PORT_4444_TCP_ADDR: selhub
+
